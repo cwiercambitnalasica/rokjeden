@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+		<title>W odległej galaktyce morza bałtyckiego</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+	<p>Rebeliancką marynarke stać tylko na troche pocisków do działa, ustrzel wszystkie pontony, łodzie i gwiazdy śmierci</p>
+	Obecny stan pocisków:
+	<div id="amunicja">Obecny stan pocisków:</div>
+	<div id="plansza">
+	</div>
+	<script type="text/javascript">	
+var rzad = 10;
+var kolumna = 10;
+var wielkosc = 50;
+var planszaopakowana = document.getElementById("plansza");
+for (i = 0; i < kolumna; i++) {
+	for (j = 0; j < rzad; j++) {	
+		// każde pole to div
+		var kwadrat = document.createElement("div");
+		planszaopakowana.appendChild(kwadrat);
+    // id każego pola
+		kwadrat.id = 's' + j + i;			
+		// pozycja każdego pola
+		var topPosition = j * wielkosc;
+		var leftPosition = i * wielkosc;					
+		// absolutne pozycjonowanie w css które wcale mnie nie denerwuje
+		kwadrat.style.top = topPosition + 'px';
+		kwadrat.style.left = leftPosition + 'px';						
+	}
+}
+//var ammo=50;
+document.getElementById("amunicja").innerHTML =ammo;
+var trafienia = 0;
+ //  0 = pusto, 1 = statek żyjący, 2 = trafiony, 3 = pudło
+/*var plansza = [
+				[0,0,0,1,1,1,1,0,0,0],
+				[0,0,0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,1,0,0,0],
+				[0,0,0,0,0,0,1,0,0,0],
+				[1,0,0,0,0,0,1,1,1,1],
+				[1,0,0,0,0,0,0,0,0,0],
+				[1,0,0,1,0,0,0,0,0,0],
+				[1,0,0,1,0,0,0,0,0,0],
+				[1,0,0,0,0,0,1,0,0,0]
+				]
+				*/		
+				//Tworzenie tablicy i losowanie do niej wartości
+					var plansza=new Array(kolumna);
+					for(var x=0;x<plansza.length; x++){
+					plansza[x]=new Array(rzad);
+					}
+				for (var k=0;k<kolumna;k++){
+				for(var l=0;l<rzad;l++){
+				plansza[k][l]=Math.round(Math.random());
+				}
+				}
+function sumowanie(plansza) {
+  var suma = 0;
+  for (var i = 0; i < plansza.length; i++) {
+    if (typeof plansza[i] == 'object')
+      suma += sumowanie(plansza[i]);
+    else
+      suma += plansza[i];
+  }
+  return suma;
+}
+var karamba=sumowanie(plansza);
+var ammo=sumowanie(plansza)+30	;
+document.getElementById("amunicja").innerHTML =ammo;				
+planszaopakowana.addEventListener("click", pifpafstrzal, false);
+function pifpafstrzal(e) {
+	if(ammo>0){
+	if (e.target !== e.currentTarget) {
+        // wyciąganie id
+		var row = e.target.id.substring(1,2);
+		var col = e.target.id.substring(2,3);			
+		// Pudło
+		if (plansza[row][col] == 0) {
+			e.target.style.background = '#bbb';
+			plansza[row][col] = 3;
+			ammo--;
+			document.getElementById("amunicja").innerHTML =ammo;
+		} else if (plansza[row][col] == 1) {
+			e.target.style.background = 'red';
+			// Trafiony statek
+			plansza[row][col] = 2;
+			ammo--;
+			document.getElementById("amunicja").innerHTML =ammo;
+			// Trafienia i warunek wygranej
+			trafienia++;
+			if (trafienia == karamba) {
+				alert("Udało się brawo, galaktyka jest bezpieczna aż do następnej trylogii");
+				 e.stopPropagation();
+			}
+			if (ammo == 0){
+			alert("Ajj karamba skończyła się amunicja, imperium zwyciężyło");
+			}	
+		} else if (plansza[row][col] > 1) {
+			alert("Strzelałeś tu już uspokój się nie ma tam nic naprawdę");
+			ammo--;
+			document.getElementById("amunicja").innerHTML =ammo;
+		}		
+    }
+}
+else{
+alert("Psik koniec amunicji");
+    e.stopPropagation();
+	}
+}	
+	</script>
+	</body>
+</html>
