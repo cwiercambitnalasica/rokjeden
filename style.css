@@ -78,3 +78,12 @@ p, button, input {
 	margin-bottom:1em;
 	font-size:30px;
 }
+#disclaimer {
+	position:absolute;
+		width:200px;
+	height:600px;
+	font-family:'Helvetica', 'Arial', 'Sans-Serif';
+    color: #black;
+	margin-bottom:1em;
+	font-size:20px;
+}
